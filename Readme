@@ -1,0 +1,21 @@
+Flujo html:
+
+Usuario entra a index.html
+
+Login OK
+
+Redirige a send.html
+
+
+POST /report
+    date
+    reason
+    file
+    note
+    resending
+    ip public
+    
+
+
+
+
