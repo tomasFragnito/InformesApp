@@ -5,7 +5,6 @@ export const createReportWithFile = async (
   file: Express.Multer.File
 ) => {
   const report = await Report.create({
-    date: data.date,
     reason: data.reason,
     note: data.note,
     forward: data.forward,

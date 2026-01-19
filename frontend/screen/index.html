@@ -3,11 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>InformeApp</title>
+    <link rel="icon" href="../favicon/favicon.ico">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/fileUp.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/requiredField.css">
 </head>
 <body>
-    <button id="btnSendPage">entrar</button>
+    <div class="page">
+        <h1>Solicitud de Registro de Reportes</h1>
 
-    <script type="module" src="../scripts/login.js"></script>
+        <div class="form-card">
+            <p class="label required">
+                motivo
+                <span class="asterisk">*</span>
+                <span class="tooltip">Campo obligatorio</span>
+            </p>
+
+            <input type="text" id="inputReason" placeholder="Ingresa el motivo">
+
+            <p class="label required">
+                archivo
+                <span class="asterisk">*</span>
+                <span class="tooltip">Campo obligatorio</span>
+            </p>
+
+            <label for="inputFile" class="drop-zone">
+                <span id="fileText">Suelte el archivo aquí<br>o haga click</span>
+            </label>
+
+            <button type="button" id="btnRemoveFile" hidden>
+                Quitar archivo
+            </button>
+
+            <input type="file" id="inputFile" hidden>
+
+            <p>Observaciones (opcional)</p>
+            <input type="text" id="inputNote" placeholder="Ingresa detalles del archivo">
+
+            <p>reenviar copia</p>
+            <input type="email" id="inputForward" placeholder="Ingresa email para copia">
+
+            <button id="btnSend" disabled>Send</button>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/main.js"></script>
+    <script type="module" src="../scripts/fileManage.js"></script>
 </body>
 </html>

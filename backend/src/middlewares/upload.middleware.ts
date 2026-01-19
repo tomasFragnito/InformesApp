@@ -1,9 +1,15 @@
 import multer from "multer";
 import path from "path";
 
+const LOCATION = process.env.LOCATION;
+
+if (!LOCATION) {
+  throw new Error("LOCATION no esta definida en el .env");
+}
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, "uploads/"); //vincualcion con el server
+    cb(null, LOCATION); //vincualcion con el server
   },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname);

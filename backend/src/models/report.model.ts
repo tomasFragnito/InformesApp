@@ -19,6 +19,7 @@ Report.init({
         date: {
             type: DataTypes.DATEONLY,
             allowNull: false,
+            defaultValue: DataTypes.NOW
         },
         reason: {
             type: DataTypes.STRING,

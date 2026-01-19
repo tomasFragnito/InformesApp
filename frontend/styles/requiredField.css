@@ -1,0 +1,39 @@
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.asterisk {
+  color: #e53935;
+  font-weight: 700;
+  cursor: help;
+}
+
+.tooltip {
+  position: absolute;
+  top: 130%;
+  left: 0;
+  background: #333;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.label:hover .tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
