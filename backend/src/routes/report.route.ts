@@ -5,6 +5,6 @@ import { uploadReport } from "../controllers/report.controller";
 
 const router = Router()
 
-router.post("/", upload.single("file"),validateReport , uploadReport );
+router.post("/", upload.single("file"), validateReport , uploadReport );
 
 export default router;

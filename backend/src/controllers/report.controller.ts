@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { saveReport } from "../services/report.service";
 
 export const uploadReport = async (req: Request, res: Response) => {
-  
+
     if (!req.file) {
       return res.status(400).json({ message: "Archivo requerido" });
     }

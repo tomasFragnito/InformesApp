@@ -1,40 +1,35 @@
 import { Request, Response, NextFunction } from "express";
 
 export const validateReport = (req:Request, res:Response, next:NextFunction) => {
-  const { date, reason, note, forward } = req.body;
-  const file = req.file;
+    const { reason, note, forward } = req.body;
+    const file = req.file;
 
-  // Fecha
-  if (!date || isNaN(Date.parse(date))) {
-    return res.status(400).json({ error: "Fecha inválida" });
-  }
+    // Motivo
+    if (!reason || reason.trim().length < 3) {
+        return res.status(400).json({ error: "Motivo inválido" });
+    }
 
-  // Motivo
-  if (!reason || reason.trim().length < 3) {
-    return res.status(400).json({ error: "Motivo inválido" });
-  }
+    // Archivo
+    if (!file) {
+        return res.status(400).json({ error: "Archivo requerido" });
+    }
 
-  // Archivo
-  if (!file) {
-    return res.status(400).json({ error: "Archivo requerido" });
-  }
+    // MIME real (no extensión)
+    const allowedTypes = ["application/pdf", "image/png", "image/jpeg"];
+    if (!allowedTypes.includes(file.mimetype)) {
+        return res.status(400).json({ error: "Tipo de archivo no permitido" });
+    }
 
-  // MIME real (no extensión)
-  const allowedTypes = ["application/pdf", "image/png", "image/jpeg"];
-  if (!allowedTypes.includes(file.mimetype)) {
-    return res.status(400).json({ error: "Tipo de archivo no permitido" });
-  }
+    // Nota (opcional)
+    if (note && note.length > 500) {
+        return res.status(400).json({ error: "Nota demasiado larga" });
+    }
 
-  // Nota (opcional)
-  if (note && note.length > 500) {
-    return res.status(400).json({ error: "Nota demasiado larga" });
-  }
+    // Email (opcional)
+    if (forward && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forward)) {
+        return res.status(400).json({ error: "Email inválido" });
+    }
 
-  // Email
-  if (!forward || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forward)) {
-    return res.status(400).json({ error: "Email inválido" });
-  }
-
-  //return res.status(201).json({ ok: true });
-  next();
+    //return res.status(201).json({ ok: true });
+    next();
 };

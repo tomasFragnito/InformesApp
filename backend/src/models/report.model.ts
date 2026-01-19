@@ -3,7 +3,6 @@ import sequelize from "../config/db";
 
 export class Report extends Model {
     declare id: number;
-    declare date: string;
     declare reason: string;
     declare note?: string;
     declare forward?: string;
@@ -16,11 +15,6 @@ Report.init({
             primaryKey: true,
             autoIncrement: true,
         },
-        date: {
-            type: DataTypes.DATEONLY,
-            allowNull: false,
-            defaultValue: DataTypes.NOW
-        },
         reason: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -30,11 +24,17 @@ Report.init({
         },
         forward: {
             type: DataTypes.STRING,
-        }
+        },
+        created_at: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
     }, 
     {
         sequelize,
+        tableName: "reports",
         modelName: "Report",
-        timestamps: false
+        timestamps: false,
     }
 );

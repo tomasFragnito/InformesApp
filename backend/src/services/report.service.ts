@@ -1,4 +1,3 @@
-import { Express } from "express";
 import { createReportWithFile } from "../repositories/report.repository";
 
 export const saveReport = async (file: Express.Multer.File, data: any) => {
