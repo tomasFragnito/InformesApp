@@ -4,12 +4,25 @@ import sequelize from "./config/db";
 import cors from "cors";
 import reportRoutes from "./routes/report.route";
 
+const DNS = process.env.DNS;
+
 sequelize.sync({ alter: true });
 
 const app = express();
 app.use(express.json())
 
+/*
+app.use(cors({
+  origin: "https://fragapp.duckdns.org",
+  methods: ["POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+*/
+
 app.use(cors());
+
+//app.use(cors({origin: "http://"+DNS+":8080"}));
+
 app.use("/reports", reportRoutes);
 
 app.use((req, _res, next) => {

@@ -1,21 +1,147 @@
-Flujo html:
+AppInformes
+Descripción General
 
-Usuario entra a index.html
+AppInformes es una aplicación web diseñada para el envío de informes corporativos. No está pensada para la consulta de datos; todas las operaciones de lectura se realizan desde otra aplicación administradora.
 
-Login OK
+La aplicación permite únicamente envíos de datos (POST) al backend y almacena la información de manera ordenada en una base de datos SQL. Solo se permiten archivos de tipo:
+.jpeg, .jpg, .png, .pdf, .doc, .docx, .xls, .xlsx.
 
-Redirige a send.html
+El proyecto fue desarrollado pensando en un futuro escalamiento, que permitirá:
+
+Agregar usuarios autorizados para el envío de archivos.
+Integrar otra aplicación para consultas y visualización de informes.
+
+Flujo del Usuario:
+
+El usuario accede a index.html.
+Envía un informe a través de un formulario (POST) hacia la ruta /report del backend.
+
+Según la respuesta, es redirigido a:
+Ok.html si el envío fue exitoso.
+Error.html si ocurrió algún problema.
+
+*No se permiten llamadas GET, PUT o DELETE desde el frontend, garantizando que la app solo envíe información.
+
+Tecnologías Utilizadas
+
+Node.js v22.19.0 con Express.
+TypScript para tipado fuerte y mejor mantenimiento del código.
+
+Paquetes principales:
+cors → control de accesos.
+dotenv → variables de entorno.
+multer → manejo de archivos subidos.
+mysql2 y sequelize → conexión y gestión de la base de datos.
+sqlite3 y ts-node → desarrollo y pruebas locales.
+
+Frontend
+HTML, CSS y JavaScript simple.
+Servido en puerto 8080.
+
+Base de Datos
+MySQL, puerto 3306.
+Tablas estructuradas para almacenar los informes y metadatos de los archivos enviados.
+
+Contenedores Docker
+La aplicación y la base de datos fueron dockerizadas para facilitar instalación y portabilidad.
+
+Imágenes Generadas
+frag/appinformes-backend
+frag/appinformes-frontend
+mysql
+
+docker-compose.yml
+services:
+  mysql:
+    image: mysql:8
+    container_name: appinformes-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: AppInformes
+    networks:
+      - appinformes-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 5
+
+  backend:
+    image: frag/appinformes-backend:latest
+    container_name: appinformes-backend
+    env_file:
+      - /home/administrator/docker-images/appinformes/.env
+    ports:
+      - "3000:3000"
+    networks:
+      - appinformes-net
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    image: frag/appinformes-frontend:latest
+    container_name: appinformes-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - appinformes-net
+
+networks:
+  appinformes-net:
+    driver: bridge
+
+![alt text](2026-01-25_14-20.jpg)
+
+Infraestructura del Servidor
+
+Desplegado en un servidor casero con Ubuntu Server.
+Servido con Apache en HTTP, con migración futura a HTTPS.
+
+Implementación paralela a un servicio de Nextcloud, sin interrumpir su funcionamiento.
 
 
-POST /report
-    date
-    reason
-    file
-    note
-    resending
-    ip public
-    
+Uso de TypeScript para tipado fuerte.
+Contenedorización con Docker y orquestación con docker-compose.
+Configuración de dependencias entre servicios y healthchecks.
+Restricción de rutas y métodos HTTP para mayor seguridad.
+
+Preparación para escalamiento futuro: usuarios autorizados y aplicaciones de consulta.
 
 
+Cómo Correr el Proyecto
+Requisitos Previos
 
+Docker y Docker Compose instalados.
+Node.js v22.19.0 y npm.
+
+Clonar el repositorio:
+
+git clone <URL_DEL_REPOSITORIO>
+cd AppInformes
+
+Levantar los contenedores:
+
+docker-compose up -d
+
+Acceder al frontend:
+http://localhost:8080
+
+El backend estará escuchando en:
+http://localhost:3000
+
+
+Instalar dependencias:
+npm install
+
+Levantar el servidor en modo desarrollo:
+npm run dev
+
+![alt text](2026-01-25_14-19.jpg)
+
+Para compilar TypeScript y ejecutar de forma clásica:
+npm run tsc
+npm start
+
+
+Nota: Asegúrate de configurar tu archivo .env con los datos correctos de la base de datos antes de ejecutar.
 

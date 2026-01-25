@@ -9,6 +9,8 @@ inputReason.addEventListener("input", validateForm);
 inputFile.addEventListener("change", validateForm);
 document.addEventListener("file-removed", validateForm);
 
+const DNS = "fragapp.duckdns.org";
+
 function validateForm(){
     const reasonOk = inputReason.value.trim() !== "";
     const fileOk = inputFile.files.length > 0;
@@ -23,17 +25,15 @@ btnSend.addEventListener("click", async () => {
     formData.append("forward", inputForward.value);
     formData.append("file", inputFile.files[0]);
 
-    const res = await fetch("http://localhost:3000/reports", {
-        method: "POST",
-        body: formData
-    });
+    const res = await fetch("http://"+DNS+"/reports", {method: "POST",body: formData});
+    //const res = await fetch("/reports", {method: "POST",body: formData});
 
     if (!res.ok){
         console.error("Error en envio");
-        window.location.href = "./error.html";
+        window.location.href = "screen/error.html";
     }
     else{
-        window.location.href = "./ok.html";
+        window.location.href = "screen/ok.html";
     } 
 
 });
