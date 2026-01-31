@@ -10,3 +10,10 @@ export const uploadReport = async (req: Request, res: Response) => {
     const report = await saveReport(req.file, req.body);
     res.status(201).json(report);
 };
+
+export const returnReport = async (req: Request, res: Response) => {
+
+
+    res.status(201);
+};
+
