@@ -1,19 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import { Lobby } from "./components/Lobby";
+import { Report } from "./components/Report";
 import { Navbar } from "./components/Navbar";
 
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        
+      <header className="App-header" >
       <Navbar />
-      <Lobby />
+
+
+      <Report/>
 
       </header>
     </div>

@@ -1,24 +1,69 @@
+import { useState, useEffect } from "react";
+
 export const Navbar = () => {
-  return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        if (darkMode){
+            document.body.classList.add("dark");
+        }
+        else{
+            document.body.classList.remove("dark");
+        }
+    }, [darkMode]);
+
+    let txtColorMode;
+
+    if(darkMode===true){
+        txtColorMode = "Dark Mode";
+    }
+    else{
+        txtColorMode = "Light Mode";
+    }
+  
+    return (
+
+        <nav className={`navbar navbar-expand-lg fixed-top ${darkMode ? "navbar-dark" : "navbar-light"}`}>
         <div className="container-fluid">
-            <a className="navbar-brand" href="#">Navbar</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-            </button>
+            <a className="navbar-brand" href="../public/index.html"><img src="/logo.png" alt="logo" className="logo" /></a>
+
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">dark/light</a>
-                </li>
-            </ul>
-            <form className="d-flex" role="search">
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <li className="nav-item">
-                <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
+
+            {/* oscuro/claro */}
+            <div className="d-flex flex-column align-items-center">
+                <div className="form-check form-switch">
+                    <input
+                        type="checkbox"
+                        className="form-check-input mb-1"
+                        checked={darkMode}
+                        onChange={() => setDarkMode(!darkMode)}
+                    />  
+                </div>
+
+                <div className="small text-center">
+                    <strong>{txtColorMode}</strong>
+                </div>
+            </div>
+
+            {/* search */}
+            {/*
+            <div className="mx-auto">
+                <form className="d-flex" role="search">
+                <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                />
+                <button className="btn btn-outline-success">
+                    Search
+                </button>
+                </form>
+            </div>
+            */}
+
+
+            {/* perfil */}
+
             </div>
         </div>
         </nav>

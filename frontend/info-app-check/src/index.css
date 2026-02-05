@@ -1,3 +1,24 @@
+:root{
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --card-background: #ffffff;
+  --nav-background: #e4e4e4;
+}
+
+body.dark {
+  --background-color: #121212;
+  --text-color: #eaeaea;
+  --card-background: #1e1e1e;
+  --nav-background: #1f1f1f;
+  --input-background: #646464;
+  --btn-background: #646464;
+}
+
+html{
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +26,110 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding-top: 56px;
+}
+
+body * {
+  color: var(--text-color);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+input{
+  background-color: var(--card-background) !important;
+  color: var(--text-color);
+}
+
+button:not(.btn) {
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-color) !important;
+  opacity: 1;
+}
+
+.card {
+  background-color: var(--card-background) !important;
+  color: var(--text-color);
+}
+
+.navbar {
+  background-color: var(--nav-background) !important;
+}
+
+.page-link {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+  border-color: var(--text-color);
+}
+
+.page-link:hover {
+  background-color: var(--nav-background) !important;
+  color: var(--text-color) !important;
+}
+
+.page-item.disabled .page-link {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+  opacity: 0.5;
+}
+
+.form-switch .form-check-label {
+  margin-left: 0 !important;
+  text-align: center;
+}
+
+.cardReport{
+  background-color: var(--card);
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+}
+
+.bulk-actions-bar {
+  background-color: var(--nav-background) !important;
+  position: fixed;
+  top: 85px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  z-index: 1050;
+  pointer-events: none;
+
+  animation: bulkFadeIn 0.2s ease-out;
+}
+
+.bulk-actions-bar span{
+  color: var(--text-color) !important;
+}
+
+.bulk-actions-bar > div {
+  pointer-events: auto;
+}
+
+@keyframes bulkFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.tooltip-help {
+  cursor: help; 
+}
+
