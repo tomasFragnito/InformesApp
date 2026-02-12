@@ -1,0 +1,25 @@
+
+body.loading {
+    cursor: wait;
+}
+
+#btnSend:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Estado de carga global */
+body.loading,
+body.loading * {
+    cursor: wait !important;
+}
+
+/* Desactiva interacciones mientras carga */
+body.loading * {
+    pointer-events: none;
+}
+
+/* Pero permite que el body mantenga el cursor */
+body.loading {
+    pointer-events: all;
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL ="https://infoappapi.onrender.com:3000";
+const API_URL ="https://infoappapi.onrender.com";
 
 export const useReport = (id) => {
     const [data, setData] = useState(null);

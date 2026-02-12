@@ -1,4 +1,4 @@
-const API = "https://infoappapi.onrender.com:3000";
+const API = "https://infoappapi.onrender.com";
 
 const inputReason = document.getElementById("inputReason");
 const inputFile = document.getElementById("inputFile");
@@ -27,6 +27,12 @@ function validateForm(){
 }
 
 btnSend.addEventListener("click", async () => {
+
+    if (btnSend.disabled) return;
+
+    btnSend.disabled = true;
+    document.body.classList.add("loading");
+
     const formData = new FormData();
 
     formData.append("reason", inputReason.value);
@@ -41,7 +47,11 @@ btnSend.addEventListener("click", async () => {
     //const res = await fetch("/reports", {method: "POST",body: formData});
 
     if (!res.ok) {
+        btnSend.disabled = false;
+        document.body.classList.remove("loading");
+
         window.location.href = "screen/error.html";
+        
         return;
     }
     await res.text();
