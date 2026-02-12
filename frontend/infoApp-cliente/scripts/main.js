@@ -37,7 +37,7 @@ btnSend.addEventListener("click", async () => {
         formData.append("email", inputEmail.value);
     }
 
-    const res = await fetch("http://"+API+"/api/reports", {method: "POST",body: formData});
+    const res = await fetch(API+"/api/reports", {method: "POST",body: formData});
     //const res = await fetch("/reports", {method: "POST",body: formData});
 
     if (!res.ok) {
