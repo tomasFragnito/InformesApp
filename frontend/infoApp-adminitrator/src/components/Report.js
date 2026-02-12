@@ -10,10 +10,20 @@ export const Report = () => {
 
   const [downloaded, setDownloaded] = useState([]);
 
-  const result = useReportsPaginated(page);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const result = useReportsPaginated(page, refreshKey);
   if (!result) return <div class="spinner-border" role="status"> <span class="visually-hidden">Loading...</span> </div>;
 
-  const listPagesTotal = Array.from({ length: result.totalPages }, (_, i) => i + 1);
+  let listPagesTotal = [];
+
+  if (result.totalPages > 0) {
+    for (let i = 1; i <= result.totalPages; i++) {
+      listPagesTotal.push(i);
+    }
+  } else {
+    listPagesTotal = [];
+  }
 
   const handleSort = (field) => {
     setSort(prev => {
@@ -84,7 +94,7 @@ export const Report = () => {
       }
 
       setSelected([]); // limpiar seleccion
-      setPage(1);      // refrescar pag
+      setRefreshKey(k => k + 1); // refrescar pag
 
     } catch (err) {
       console.error("Error al borrar:", err);
@@ -124,7 +134,7 @@ export const Report = () => {
       </div>
     )}
 
-    <div className="container mt-3 fw-bold text-center">
+    <div className="container mt-3 fw-bold text-center border border-secondary rounded p-2">
       <div className="row align-items-center">
 
         {/* CHECK TODOS */}
@@ -145,20 +155,48 @@ export const Report = () => {
         />
       </div>
 
-      <div className="col-1" onClick={() => handleSort("id")} style={{cursor:"pointer"}}>
-        ID {sort.field === "id" && (sort.dir === "asc" ? "▲" : "▼")}
+      <div className="col-1" onClick={() => handleSort("id")} style={{ cursor: "pointer" }}>
+        <span className="d-inline-flex align-items-center">
+          ID
+          {sort.field === "id" && (
+            <span className="ms-1 small">
+              {sort.dir === "asc" ? "▲" : "▼"}
+            </span>
+          )}
+        </span>
       </div>
 
-      <div className="col-2" onClick={() => handleSort("reason")} style={{cursor:"pointer"}}>
-        Reason {sort.field === "reason" && (sort.dir === "asc" ? "▲" : "▼")}
+      <div className="col-2" onClick={() => handleSort("reason")} style={{ cursor: "pointer" }}>
+        <span className="d-inline-flex align-items-center">
+          Reason
+          {sort.field === "reason" && (
+            <span className="ms-1 small">
+              {sort.dir === "asc" ? "▲" : "▼"}
+            </span>
+          )}
+        </span>
       </div>
 
-      <div className="col-3" onClick={() => handleSort("note")} style={{cursor:"pointer"}}>
-        Note {sort.field === "note" && (sort.dir === "asc" ? "▲" : "▼")}
+      <div className="col-3" onClick={() => handleSort("note")} style={{ cursor: "pointer" }}>
+        <span className="d-inline-flex align-items-center">
+          Note
+          {sort.field === "note" && (
+            <span className="ms-1 small">
+              {sort.dir === "asc" ? "▲" : "▼"}
+            </span>
+          )}
+        </span>
       </div>
 
-      <div className="col-2" onClick={() => handleSort("created_at")} style={{cursor:"pointer"}}>
-        Date {sort.field === "created_at" && (sort.dir === "asc" ? "▲" : "▼")}
+      <div className="col-2" onClick={() => handleSort("created_at")} style={{ cursor: "pointer" }}>
+        <span className="d-inline-flex align-items-center">
+          Date
+          {sort.field === "created_at" && (
+            <span className="ms-1 small">
+              {sort.dir === "asc" ? "▲" : "▼"}
+            </span>
+          )}
+        </span>
       </div>
 
       <div className="col-3">Files</div>
@@ -166,54 +204,54 @@ export const Report = () => {
   </div>
 
   {/*filas de reportes*/}
-  <div className="container mt-2 ">
-    {sortedData.map(report => ( //map == for
-      <div className="card mb-1" id="cardReport" key={report.id}>
-        <div className="card-body py-1 px-1 small">
-          <div className="row text-center align-items-center">
-            <div className="col-1 text-center ">
-              <input
-                type="checkbox"
-                checked={selected.includes(report.id)}
-                onChange={() => {
-                  setSelected(prev =>
-                    prev.includes(report.id)
-                      ? prev.filter(id => id !== report.id)
-                      : [...prev, report.id]
-                  );
-                }}
-              />
+  <div className="container mt-2">
+    {sortedData.length === 0 ? (
+      <p className="text-center sin-reportes small">Sin reportes</p>
+    ) : (
+      sortedData.map(report => (
+        <div className="card mb-1" id="cardReport" key={report.id}>
+          <div className="card-body py-1 px-1 small">
+            <div className="row text-center align-items-center">
+              <div className="col-1 text-center">
+                <input
+                  type="checkbox"
+                  checked={selected.includes(report.id)}
+                  onChange={() => {
+                    setSelected(prev =>
+                      prev.includes(report.id)
+                        ? prev.filter(id => id !== report.id)
+                        : [...prev, report.id]
+                    );
+                  }}
+                />
+              </div>
+
+              <div className="col-1">{report.id}</div>
+              <div className="col-2">{truncate(report.reason)}</div>
+              <div className="col-3">{truncate(report.note)}</div>
+              <div className="col-2">
+                {new Date(report.created_at).toLocaleDateString()}
+              </div>
+
+              <div className="col-3">
+                {report.Files?.map(file => (
+                  <div key={file.id}>
+                    <div className="fw-bold small">{file.filename}</div>
+                    <button
+                      className="btn btn-sm btn-primary"
+                      disabled={downloaded.includes(file.id)}
+                      onClick={() => handleDownload(file)}
+                    >
+                      {downloaded.includes(file.id) ? "Descargado" : "Descargar"}
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-
-            <div className="col-1" data-toggle="tooltip" data-placement="top" title={report.id}>{report.id}</div>
-
-            <div className="col-2 tooltip-help" data-toggle="tooltip" data-placement="top" title={report.reason}>{truncate(report.reason)}</div>
-
-            <div className="col-3 tooltip-help" data-toggle="tooltip" data-placement="top" title={report.note}>{truncate(report.note)}</div>
-
-            <div className="col-2" data-toggle="tooltip" data-placement="top" title={new Date(report.created_at).toLocaleDateString()}>
-              {new Date(report.created_at).toLocaleDateString()}
-            </div>
-
-            <div className="col-3">
-              {report.Files?.map(file => (
-                <div key={file.id}>
-                  <div className="fw-bold small">{file.filename}</div>
-
-                <button
-                  className="btn btn-sm btn-primary"
-                  disabled={downloaded.includes(file.id)}
-                  onClick={() => handleDownload(file)}>
-                  {downloaded.includes(file.id) ? "Descargado" : "Descargar"}
-                </button>
-                </div>
-              ))}
-            </div>
-
           </div>
         </div>
-      </div>
-    ))}
+      ))
+    )}
   </div>
 
   {/* PAGINACION */}
@@ -256,8 +294,7 @@ export const Report = () => {
           className="page-link"
           onClick={() => setPage(p => p + 1)}
           disabled={page === result.totalPages}
-        >
-          Next
+        >Next
         </button>
       </li>
 

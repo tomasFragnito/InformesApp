@@ -5,12 +5,22 @@ const inputNote = document.getElementById("inputNote");
 const inputEmail = document.getElementById("inputEmail");
 const btnSend = document.getElementById("btnSend");
 
+const chkEmail = document.getElementById("chkEmail");
+const emailInputCorrection = document.getElementById("emailInputCorrection");
+
 inputReason.addEventListener("input", validateForm);
 inputFile.addEventListener("change", validateForm);
 document.addEventListener("file-removed", validateForm);
 
 const DNS = "fragapp.duckdns.org";
 const ip = "localhost:3000";
+
+document.addEventListener("DOMContentLoaded", () => {
+    chkEmail.checked = false;
+    inputEmail.style.display = "none";
+    inputEmail.value = "";
+    emailInputCorrection.style.display = "none";
+});
 
 function validateForm(){
     const reasonOk = inputReason.value.trim() !== "";
@@ -23,21 +33,22 @@ btnSend.addEventListener("click", async () => {
 
     formData.append("reason", inputReason.value);
     formData.append("note", inputNote.value);
-    formData.append("forward", inputEmail.value);
     formData.append("file", inputFile.files[0]);
+
+    if (chkEmail.checked) {
+        formData.append("email", inputEmail.value);
+    }
 
     const res = await fetch("http://"+ip+"/api/reports", {method: "POST",body: formData});
     //const res = await fetch("/reports", {method: "POST",body: formData});
 
-    if (!res.ok){
-        console.error("Error en envio");
+    if (!res.ok) {
         window.location.href = "screen/error.html";
+        return;
     }
-    else{
+    await res.text();
 
-        window.location.href = "screen/ok.html";
-    } 
-
+    window.location.href = "screen/ok.html";
 });
 
 function emailValidation(email) {
@@ -45,10 +56,23 @@ function emailValidation(email) {
     return regex.test(email);
 }
 
-inputEmail.addEventListener("input", () => {
-    if (validarEmail(inputEmail.value)) {
-        console.log("Formato de email correcto ✅");
+chkEmail.addEventListener("change", () => {
+    if (chkEmail.checked) {
+        inputEmail.style.display = "block";
     } else {
-        console.log("Formato de email incorrecto ❌");
+        inputEmail.style.display = "none";
+        inputEmail.value = "";
+        emailInputCorrection.style.display = "none";
+    }
+});
+
+inputEmail.addEventListener("input", () => {
+    if (!chkEmail.checked) return;
+
+    if ((!emailValidation(inputEmail.value)) && !(inputEmail.value === "")) {
+        emailInputCorrection.textContent = "Formato de email incorrecto";
+        emailInputCorrection.style.display = "inline-block";
+    } else {
+        emailInputCorrection.style.display = "none";
     }
 });

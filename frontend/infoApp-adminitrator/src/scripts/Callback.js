@@ -47,7 +47,7 @@ export const downloadFile = async (id, filename) => {
   window.URL.revokeObjectURL(url);
 };
 
-export const useReportsPaginated = (page) => {
+export const useReportsPaginated = (page, refreshKey) => {
     const [data, setData] = useState({
         data: [],
         page: 1,
@@ -57,11 +57,8 @@ export const useReportsPaginated = (page) => {
     useEffect(() => {
     fetch(API_URL + "/api/reports/pag?page=" + page)
         .then(res => res.json())
-        .then(setData)
-        .catch(() => {
-            setData({ data: [], page: 1, totalPages: 1 });
-        });
-    }, [page]);
+        .then(setData);
+    }, [page, refreshKey]);
 
     return data;
 };

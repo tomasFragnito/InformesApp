@@ -2,9 +2,14 @@ import multer from "multer";
 import path from "path";
 
 const LOCATION = process.env.LOCATION;
+const LIMIT_SIZE = process.env.LIMIT_SIZE;
 
 if (!LOCATION) {
   throw new Error("LOCATION no esta definida en el .env");
+}
+
+if (!LIMIT_SIZE) {
+  throw new Error("LIMIT_SIZE no esta definida en el .env");
 }
 
 const storage = multer.diskStorage({
@@ -21,7 +26,7 @@ const storage = multer.diskStorage({
 export const upload = multer({
   storage,
   limits: {
-    fileSize: 200000,
+    fileSize: Number(LIMIT_SIZE) * 1024 * 1024,
   },
   fileFilter: (_req, file, cb) => {
     const allowed = [

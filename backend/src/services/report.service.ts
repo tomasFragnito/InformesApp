@@ -66,12 +66,14 @@ export const getReportsWithFilesPaginated = async (page: number) => {
 
     const { rows, count } = await findReportsWithFilesPaginated(limit, offset);
 
+    const totalPages = Math.max(1, Math.ceil(count / limit)); //garantiza que siempre sea 1 pagina aunque no hayan reportes en la bd
+
     return {
       data: rows,
       page,
       limit,
       total: count,
-      totalPages: Math.ceil(count / limit),
+      totalPages,
     };
   }
   catch(error){

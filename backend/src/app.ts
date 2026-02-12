@@ -19,11 +19,7 @@ app.use(cors({
 }));
 */
 
-app.use(cors({
-  origin: ["http://127.0.0.1:5500"], 
-  methods: ["GET", "POST", "DELETE", "PUT"],
-  credentials: true,
-}));
+app.use(cors());
 
 app.use("/api", reportRoutes);
 

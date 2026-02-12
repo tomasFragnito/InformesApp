@@ -14,7 +14,9 @@ function App() {
       <Navbar />
 
 
-      <Report/>
+      <div className="container mt-5">
+        <Report />
+      </div>
 
       </header>
     </div>

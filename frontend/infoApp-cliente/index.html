@@ -42,8 +42,13 @@
             <p>Observaciones (opcional)</p>
             <input type="text" id="inputNote" placeholder="Ingresa detalles del archivo">
 
-            <p>reenviar copia</p>
-            <input type="email" id="inputForward" placeholder="Ingresa email para copia">
+            <label>
+                reenviar copia
+                <input type="checkbox" id="chkEmail">
+            </label>
+
+            <input style="display: none;" type="email" id="inputEmail" placeholder="Ingresa email para copia">
+            <p id="emailInputCorrection"></p>
 
             <button id="btnSend" type="button" disabled>Send</button>
         </div>
