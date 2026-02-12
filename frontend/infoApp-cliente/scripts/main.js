@@ -1,3 +1,6 @@
+import config from "../config.json";
+
+const API = config.api_url;
 
 const inputReason = document.getElementById("inputReason");
 const inputFile = document.getElementById("inputFile");
@@ -11,9 +14,6 @@ const emailInputCorrection = document.getElementById("emailInputCorrection");
 inputReason.addEventListener("input", validateForm);
 inputFile.addEventListener("change", validateForm);
 document.addEventListener("file-removed", validateForm);
-
-const DNS = "fragapp.duckdns.org";
-const ip = "localhost:3000";
 
 document.addEventListener("DOMContentLoaded", () => {
     chkEmail.checked = false;
@@ -39,7 +39,7 @@ btnSend.addEventListener("click", async () => {
         formData.append("email", inputEmail.value);
     }
 
-    const res = await fetch("http://"+ip+"/api/reports", {method: "POST",body: formData});
+    const res = await fetch("http://"+API+"/api/reports", {method: "POST",body: formData});
     //const res = await fetch("/reports", {method: "POST",body: formData});
 
     if (!res.ok) {

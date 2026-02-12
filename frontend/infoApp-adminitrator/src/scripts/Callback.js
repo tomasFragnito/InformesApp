@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import config from "./config.json";
 
-//const DNS = "http://fragapp.duckdns.org";
-const API_URL  = "http://localhost:3000";
+const API_URL = config.api_url;
 
 export const useReport = (id) => {
     const [data, setData] = useState(null);
