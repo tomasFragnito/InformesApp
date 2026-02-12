@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import config from "./config.json";
 
 const API_URL ="https://infoappapi.onrender.com:3000";
 

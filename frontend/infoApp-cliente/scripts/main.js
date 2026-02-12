@@ -1,5 +1,3 @@
-import config from "../config.json";
-
 const API = "https://infoappapi.onrender.com:3000";
 
 const inputReason = document.getElementById("inputReason");
