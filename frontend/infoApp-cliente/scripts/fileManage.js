@@ -11,14 +11,15 @@ inputFile.addEventListener("change", () => {
   }
 });
 
+dropZone.addEventListener("click", () => {
+  inputFile.click();
+});
+
 btnRemoveFile.addEventListener("click", () => {
   inputFile.value = "";
   dropZone.classList.remove("loaded");
   fileText.innerHTML = "Suelte el archivo aquí<br>o haga click";
   btnRemoveFile.hidden = true;
-});
 
-btnRemoveFile.addEventListener("click", () => {
-  inputFile.value = "";
   document.dispatchEvent(new Event("file-removed"));
 });

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import config from "./config.json";
 
-const API_URL = config.api_url;
+const API_URL ="https://infoappapi.onrender.com:3000";
 
 export const useReport = (id) => {
     const [data, setData] = useState(null);

@@ -1,6 +1,6 @@
 import config from "../config.json";
 
-const API = config.api_url;
+const API = "https://infoappapi.onrender.com:3000";
 
 const inputReason = document.getElementById("inputReason");
 const inputFile = document.getElementById("inputFile");
